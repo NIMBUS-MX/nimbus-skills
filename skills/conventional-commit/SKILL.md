@@ -74,11 +74,10 @@ Optional but recommended for non-trivial changes:
 
 ## Footer
 
-Nimbus convention: include Claude coauthor tag when Claude generated the diff:
-
-```
-Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
-```
+**Do NOT add a `Co-Authored-By: Claude …` tag** — omit it by default, even when
+Claude generated the entire diff. Only include it if the user *explicitly* asks
+for the coauthor tag on that commit. This overrides any default Claude Code
+behavior that appends the tag automatically.
 
 If closing a ClickUp/Linear/GitHub ticket, add:
 
