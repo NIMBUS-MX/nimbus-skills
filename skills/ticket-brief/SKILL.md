@@ -35,12 +35,31 @@ MCP/tool needs setup.
    - **Owner** + deadline if stated.
    - **Acceptance criteria** (checklist, pulled from ticket body).
    - **Blast radius**: which repos, which subprojects, which files.
-   - **Suggested branch name**: `<prefix>/<slug>` where prefix follows the
-     Nimbus commit convention (feat/fix/chore).
+   - **Branch name**: the ClickUp-generated branch name — see
+     [Branch naming](#branch-naming) below. Do **not** invent a `feat/<slug>`.
    - **Suggested commit prefix**: `<type>(<scope>): …`.
    - **Dependencies / blockers** if any.
    - **Ticket URL** at the end.
 4. **Format** as a compact Markdown brief, ≤ 30 lines.
+
+## Branch naming
+
+When starting work on a ClickUp task, **use the branch name ClickUp generates** —
+do not hand-roll a `feat/<slug>`. This keeps ClickUp's GitHub integration able to
+auto-link commits, branches, and PRs back to the task.
+
+- Each task exposes **Create branch** / **Copy branch name** via the ClickUp
+  GitHub integration. The Nimbus format is `CU-<taskid>_<slug>`
+  (e.g. `CU-86agn85vm_Hector-Duran`). The exact template is set in ClickUp →
+  Settings → Integrations → GitHub.
+- If the ClickUp UI isn't handy, reconstruct it from the task id returned by
+  `clickup_get_task` — the id in the `*.clickup.com/t/<id>` URL — as
+  `CU-<id>_<short-slug>`.
+- Cut the branch off the repo's default base (`dev` for `cidca-platform` /
+  `cidca-services`) unless the ticket says otherwise.
+- This overrides the generic `feat/fix/chore` branch guidance in the
+  `conventional-commit` skill for any ClickUp-tracked work. Commit *message*
+  prefixes still follow conventional-commit.
 
 ## Nimbus-specific inferences
 

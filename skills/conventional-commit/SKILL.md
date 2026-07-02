@@ -94,6 +94,11 @@ Branch prefix matches commit type:
 - Wave-style (horus orchestrator): `wave1/<task-slug>`.
 - Slug: kebab-case, ≤ 40 chars.
 
+**Exception — ClickUp-tracked work:** use the ClickUp-generated branch name
+(`CU-<taskid>_<slug>`) instead, so the GitHub integration auto-links the branch
+to the task. See the `ticket-brief` skill. Commit *message* prefixes below still
+apply.
+
 ## Behavior
 
 1. `git diff --cached --stat` to see what's staged.
