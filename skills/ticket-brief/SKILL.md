@@ -61,6 +61,41 @@ auto-link commits, branches, and PRs back to the task.
   `conventional-commit` skill for any ClickUp-tracked work. Commit *message*
   prefixes still follow conventional-commit.
 
+## Status transitions
+
+Once the user confirms scope and work starts, **the agent owns the ticket's
+status** and moves it forward as work progresses — do not wait to be told.
+
+- **Start of work** → move the task to `In Progress` (or the workspace's
+  equivalent active status) via
+  `mcp__clickup__clickup_update_task(task_id=…, status="in progress")`.
+- **PRs opened / awaiting review** → move to `In Review` (or equivalent).
+- **All relevant PRs merged** → move the task to `Done` (or the workspace's
+  final/closed status). "All relevant PRs" = every PR opened for this ticket
+  and its subtasks; if any is still open or in draft, the ticket stays in
+  `In Review`, not `Done`.
+- Read the list's real status names first (`clickup_get_list` /
+  `clickup_get_task` returns the current status set) — don't assume a status
+  string exists; map to the closest active / review / closed status.
+- If a status transition fails (permissions, unknown status), tell the user
+  which move failed rather than silently continuing.
+
+## Subtask budget
+
+The agent may decompose work into subtasks, but is **bounded**:
+
+- **At most 1 parent ticket + 5 subtasks.** Never exceed 5 subtasks per
+  ticket. If the work needs more than 5, stop and ask the user to re-scope
+  rather than spawning a 6th.
+- Create subtasks with
+  `mcp__clickup__clickup_create_task(parent=<ticket_id>, …)` to address
+  distinct sub-pieces (per-repo work, per-subproject, cleanup, follow-ups).
+- **PRs are unbounded** — open as many as the work warrants. The 1+5 cap is on
+  *tickets/subtasks only*, not PRs. Multiple PRs can map to one subtask.
+- Apply the same status-transition rule to subtasks: move each subtask through
+  `In Progress` → `In Review` → `Done` as its own PRs land. The parent ticket
+  only reaches `Done` when every subtask and every relevant PR is merged.
+
 ## Nimbus-specific inferences
 
 - Ticket mentions `ecg-ui/…` or React component → frontend PR in cidca-platform.
@@ -75,7 +110,10 @@ auto-link commits, branches, and PRs back to the task.
 - Assume you can auto-implement from the brief — always confirm scope with user first.
 - Include the full ticket body — you're distilling, not copying.
 - Include secrets that appear in the ticket body (Vercel URLs with tokens, etc.).
-- Modify the ticket (add comments, change status) unless user asks.
+- Add freeform comments to the ticket unless the user asks — but status
+  transitions and the 1+5 subtask budget are agent-owned once work starts
+  (see [Status transitions](#status-transitions) / [Subtask budget](#subtask-budget)).
+- Exceed 1 ticket + 5 subtasks. Re-scope with the user instead of a 6th subtask.
 
 ## Follow-up
 
