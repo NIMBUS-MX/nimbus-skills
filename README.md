@@ -29,6 +29,7 @@ Restart Claude Code. Skills auto-load on session start.
 | [`sentry-triage`](skills/sentry-triage/SKILL.md) | Sentry URL pasted, `/sentry-triage` | Fetch via Sentry MCP, extract stack, grep repo, propose fix + PR title. |
 | [`pr-review`](skills/pr-review/SKILL.md) | "review this PR", `/pr-review` | One line per finding, severity-tagged, no praise, no scope creep. Nimbus caveman format. |
 | [`ticket-brief`](skills/ticket-brief/SKILL.md) | ClickUp/Linear/GitHub URL pasted | Fetch + distill into a work brief (goal, acceptance criteria, blast radius, branch name, commit prefix). |
+| [`sprint-planning`](skills/sprint-planning/SKILL.md) | `/sprint-planning`, "plan the sprint" | Autonomously fill the current sprint from the backlog to team capacity, balance by dev skill + time constraints, write a sprint-goal ClickUp doc, and generate follow-up tickets. |
 | [`worktree-cleanup`](skills/worktree-cleanup/SKILL.md) | "remove branch", `git branch -D` errors on worktree | Enforce `worktree remove --force` THEN `branch -D` ordering. |
 | [`db-migration-safety`](skills/db-migration-safety/SKILL.md) | Edit any migration file, `/db-migration-safety` | Audit Alembic / Django / Drizzle migrations for prod-safe patterns. Nimbus cross-repo hot-spot rules baked in. |
 | [`release-brief`](skills/release-brief/SKILL.md) | "cut a release", `/release-brief` | Detect release convention, draft changelog from recent commits, propose bump kind, show exact command. |
