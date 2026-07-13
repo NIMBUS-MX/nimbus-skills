@@ -60,6 +60,19 @@ Sprint lists are named `Sprint <N> (d/m/yy - d/m/yy)` inside the Sprints folder.
 `clickup_get_workspace_hierarchy(space_ids=["90132262292"], max_depth="2")` and
 take the last `Sprint N`).
 
+> **⚠️ Never create the sprint list via the API.** ClickUp's real **Sprints** are
+> minted by the Sprints ClickApp (they carry sprint start/end dates, sprint points,
+> and burndown). The public API — `clickup_create_list_in_folder` /
+> `clickup_create_list` / `clickup_update_list` — only makes a **plain list**;
+> there is no parameter for sprint dates or the sprint flag, and no way to convert
+> a plain list into a Sprint afterward. A plain list in the Sprints folder looks
+> right but is NOT a sprint (confirmed 2026-07: doing this produced a dud that had
+> to be recreated in the UI). **The user must create the next sprint in the
+> ClickUp UI** (Sprints folder → New Sprint); this skill then detects the new list
+> (newest in folder `90133894814`) and moves/fills tickets into it. Likewise there
+> is **no delete-list tool** — if a stray list needs removing, ask the user to
+> delete it in the UI (or rename it `⚠️ DELETE ME …` and flag it).
+
 **Statuses** (list config): `Open` → `pending` → `blocked` → `in progress` →
 `in review` → `completed` / `released` / `rejected` / `Closed`.
 Done = `completed` | `released` | `Closed`. Killed = `rejected`.
@@ -207,5 +220,6 @@ closed), the compute can be offloaded to `whitepc` (see the `homeserver` skill) 
 
 ## Follow-up
 
-After the run, ask: `Close the current sprint and start the next? (create Sprint
-<N+1> list / adjust the plan)`.
+After the run, ask: `Close the current sprint and start the next?` — note that the
+user must **create Sprint <N+1> in the ClickUp UI** (the API can't; see the sprint-
+list caveat above); once it exists this skill detects it and fills it.
