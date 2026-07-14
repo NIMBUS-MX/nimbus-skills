@@ -36,6 +36,7 @@ Restart Claude Code. Skills auto-load on session start.
 | [`stale-branch-audit`](skills/stale-branch-audit/SKILL.md) | "cleanup branches", `/stale-branch-audit` | List branches >30 days old grouped by cleanup safety. |
 | [`honest-pushback`](skills/honest-pushback/SKILL.md) | Session start (silent) | Act as senior staff engineer. Push back **once** with a concrete alternative before executing an approach you have evidence is wrong. |
 | [`eureka`](skills/eureka/SKILL.md) | Word "eureka" after finishing work | Post-implementation retrospective — surface concrete refactor opportunities on the just-completed diff. |
+| [`verify-over-assume`](skills/verify-over-assume/SKILL.md) | About to state a verifiable fact; hedging ("probably"/"should be") | Don't guess what a tool/MCP/API/file can confirm. On the Max plan, quality beats token saving — spend the call to be certain. |
 
 Snippet for repo-level integration (paste into each repo's `CLAUDE.md`): see
 [`CLAUDE_MD_SNIPPET.md`](CLAUDE_MD_SNIPPET.md).
