@@ -38,6 +38,7 @@ Restart Claude Code. Skills auto-load on session start.
 | [`honest-pushback`](skills/honest-pushback/SKILL.md) | Session start (silent) | Act as senior staff engineer. Push back **once** with a concrete alternative before executing an approach you have evidence is wrong. |
 | [`eureka`](skills/eureka/SKILL.md) | Word "eureka" after finishing work | Post-implementation retrospective — surface concrete refactor opportunities on the just-completed diff. |
 | [`verify-over-assume`](skills/verify-over-assume/SKILL.md) | About to state a verifiable fact; hedging ("probably"/"should be") | Don't guess what a tool/MCP/API/file can confirm. On the Max plan, quality beats token saving — spend the call to be certain. |
+| [`ai-transformation-report`](skills/ai-transformation-report/SKILL.md) | "reporte de transformación IA", `/ai-transformation-report` | Spanish, business-facing HTML report (real git + gh data, never mocked) of the AI-plan ROI: commits, code volume, features shipped, and quality since a given date. Justifies the Claude Max spend. |
 
 Snippet for repo-level integration (paste into each repo's `CLAUDE.md`): see
 [`CLAUDE_MD_SNIPPET.md`](CLAUDE_MD_SNIPPET.md).
