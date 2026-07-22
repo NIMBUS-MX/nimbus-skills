@@ -3,20 +3,24 @@ name: ai-transformation-report
 description: >-
   Generate a Spanish, business-facing HTML report (with real-data charts) showing
   how commits, code volume, features shipped, and quality changed across the
-  CIDCA/Nimbus repos since the Claude Max plan started (2026-04-13). Uses REAL git
-  + gh data only — never mocked. Built to justify/get reimbursed for the AI spend.
+  CIDCA/Nimbus repos since the team started working with AI (2026-04-13). Uses
+  REAL git + gh data only — never mocked. Frames it as impact, not as a bill.
   Trigger when the user says "reporte de transformación AI / IA", "cuánto hemos
-  producido desde el plan Max", "reporte para negocio del gasto de Claude", or
+  producido desde el plan Max", "reporte para negocio del impacto de la IA", or
   invokes /ai-transformation-report.
 ---
 
 # AI Transformation Report (CIDCA / Nimbus)
 
 Produce a **Spanish**, MVP/startup-toned, business-facing **HTML report** that a
-non-technical stakeholder can read to see the ROI of the Claude Max plan (started
-**2026-04-13**, ~$200/mo shared). It must be built on **real data only** — every
+non-technical stakeholder can read to see how working with AI changed the team's
+delivery since **2026-04-13**. It must be built on **real data only** — every
 number comes from `git`/`gh`. **Never fabricate or estimate a number you can't
 pull.** If a value can't be measured, omit it and say so.
+
+**Framing: impact, not an invoice.** Do NOT include plan costs, $/feature math,
+"lo pagamos de nuestra bolsa", or any reimbursement ask. The report shows what the
+team shipped and how the work changed — nothing about billing.
 
 ## Steps
 
@@ -62,7 +66,8 @@ pull.** If a value can't be measured, omit it and say so.
 
 ## Guardrails
 - **No mocked data, ever.** Real git/gh only. If asked to embellish, refuse and
-  keep it honest — this is a reimbursement/finance artifact.
+  keep it honest — this goes in front of stakeholders.
+- **No money.** No plan cost, no $/feature, no reimbursement ask.
 - Keep it in **Spanish**, concrete, and short enough for a founder/finance reader;
   put the raw table + methodology at the end for auditability.
 - Re-run any time with a different `--since` to reframe the window.

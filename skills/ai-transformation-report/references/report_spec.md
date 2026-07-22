@@ -4,8 +4,8 @@ Language: **Spanish**. Audience: founder / finance (non-technical). Tone: MVP/st
 concrete, honest. Build from `ai_metrics.json` (embedded verbatim).
 
 ## Section order
-1. **Encabezado** — título, subtítulo con la ventana de fechas y el costo del plan
-   ($200/mes compartido desde 13-abr-2026), fecha de generación.
+1. **Encabezado** — título, subtítulo con la ventana de fechas (desde 13-abr-2026)
+   y la fecha de generación. **Sin costos del plan.**
 2. **Resumen ejecutivo (KPI row)** — 4–5 tiles grandes: Commits, Líneas de código
    añadidas, Features enviados a preprod, PRs mergeados, Contribuidores. Cada tile
    muestra el valor "Después" y el delta % vs "Antes".
@@ -19,8 +19,9 @@ concrete, honest. Build from `ai_metrics.json` (embedded verbatim).
    (ecg_auto, ecg-ui) se apagaron al consolidarse en `cidca-platform`.
 7. **Calidad** — adopción de Conventional Commits (%), razón feat:fix, y la
    distribución de tipos de commit (feat/fix/refactor/test/docs/chore).
-8. **El caso de reembolso** — párrafo corto: costo ($200/mes × meses) vs. output
-   (features, PRs, líneas); enmarcar como "lo pagamos de nuestra bolsa".
+8. **En qué nos ha ayudado** — tiles de lo que salió a preprod (features, PRs,
+   líneas netas) + un párrafo con lo que está en curso (app iOS, consolidación del
+   monorepo, rediseño del CidKit). **Sin costos, sin $/feature, sin pedir reembolso.**
 9. **Metodología y datos crudos** — bullets de metodología (ver SKILL) + la tabla
    por repo completa. Nota: "Datos reales de git/gh, sin datos inventados."
 
