@@ -45,6 +45,20 @@ EXCLUDES = [":(exclude,glob)**/*.lock", ":(exclude)package-lock.json", ":(exclud
 TYPES = ["feat", "fix", "refactor", "test", "docs", "chore", "perf", "build", "ci", "style"]
 CONV_RE = re.compile(r"^(%s)(\(|!|:)" % "|".join(TYPES))
 
+# One human can commit under several git identities; fold them so per-person
+# counts are real. Bots are dropped entirely.
+ALIASES = {"Hector Duran": "Héctor", "Hector Durán": "Héctor", "hector97i": "Héctor",
+           "Jorge Uribe": "Jorge", "Jorge Uribe Orizaga": "Jorge", "giorethKeenic": "Jorge",
+           "giorethkeenic": "Jorge", "Nicolas Albo": "Nico", "Nicolas Gonzàlez Albo": "Nico",
+           "albonicc": "Nico"}
+
+def canon_author(name):
+    n = (name or "").strip()
+    low = n.lower()
+    if not n or "[bot]" in low or "github-actions" in low or low.endswith("bot"):
+        return None
+    return ALIASES.get(n, n)
+
 def git(path, *args, ref=None):
     cmd = ["git", "-C", path, "log"] + ([ref] if ref else ["--all"])
     cmd += list(args)
@@ -93,6 +107,16 @@ def authors(path, since, until, ref=None):
     out = git(path, "--no-merges", f"--since={since}", f"--until={until}", "--pretty=%an", ref=ref)
     return sorted(set(a.strip() for a in out.splitlines() if a.strip()))
 
+def author_counts(path, since, until, ref=None):
+    """Commits per human (aliases folded, bots dropped)."""
+    out = git(path, "--no-merges", f"--since={since}", f"--until={until}", "--pretty=%an", ref=ref)
+    c = {}
+    for line in out.splitlines():
+        n = canon_author(line)
+        if n:
+            c[n] = c.get(n, 0) + 1
+    return c
+
 def classify(subjects):
     dist = {t: 0 for t in TYPES}
     conv = 0
@@ -129,6 +153,7 @@ def window_stats(r, since, until):
         type_dist=dist,
         conventional_pct=round(100 * conv / total, 1) if total else 0.0,
         authors=authors(r["path"], since, until, ref=ref),
+        author_counts=author_counts(r["path"], since, until, ref=ref),
     )
 
 def weekly(r, frm, until):
@@ -195,6 +220,18 @@ def main():
                     features=tot("before", "features"),
                     fixes=tot("before", "fixes")),
     )
+    # per-human commit totals across active repos, both windows (aliases folded)
+    def by_author(win_key):
+        agg = {}
+        for r in active:
+            for name, n in r[win_key]["author_counts"].items():
+                agg[name] = agg.get(name, 0) + n
+        return dict(sorted(agg.items(), key=lambda kv: -kv[1]))
+    totals["by_author"] = dict(after=by_author("after"), before=by_author("before"))
+    # per-repo commits in both windows (for the repo-level antes/después chart)
+    totals["by_repo"] = [dict(repo=r["key"], before=r["before"]["commits"],
+                              after=r["after"]["commits"]) for r in active]
+
     all_authors = sorted(set(x for r in active for x in r["after"]["authors"]))
 
     result = dict(
